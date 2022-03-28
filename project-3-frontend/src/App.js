@@ -2,13 +2,13 @@ import './App.css';
 import { useState, useEffect } from "react"
 import { useAuth0 } from "@auth0/auth0-react";
 import { Route, Switch, useHistory } from "react-router-dom";
-import Profile from './components/Profile';
+import Dashboard from './components/Dashboard';
 import NavBar from './components/NavBar';
 import FinishSignUp from './components/FinishSignUp';
 import People from './components/People';
 
 const App = () => {
-  const [userState, setUserState] = useState(null);
+  const [employeeState, setEmployeeState] = useState(null);
   const { user, isAuthenticated } = useAuth0();
   const history = useHistory();
 
@@ -23,35 +23,28 @@ const App = () => {
       })
         .then(res => res.json())
         .then(data => {
-          setUserState(data);
-          if(data.name.includes("@")){
+          setEmployeeState(data);
+          if(data.first_name.includes("@")){
             history.push("/finish_sign_up")
           }
         });
     }
   }, [isAuthenticated, user, history]);
 
-  console.log(userState)
+  console.log(employeeState)
 
   return (
     <div>
-      <NavBar user={userState}/>
+      <NavBar employee={employeeState}/>
       <Switch>
-        <Route exact path="/profile">
-          <Profile userInfo={userState}/>
+        <Route exact path="/dashboard">
+          <Dashboard employee={employeeState}/>
         </Route>
         <Route exact path="/finish_sign_up">
-          <FinishSignUp user={userState}/>
+          <FinishSignUp employee={employeeState}/>
         </Route>
         <Route path="/">
-          {
-            userState ?
-            <>
-              Hello, {userState.name}
-            </>
-            : null
-          }
-          <People></People>
+          
         </Route>
       </Switch>
     </div>
