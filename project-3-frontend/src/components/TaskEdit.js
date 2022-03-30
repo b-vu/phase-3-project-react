@@ -155,9 +155,11 @@ const TaskEdit = () => {
                         <div>
                             {task.task.description}
                             <br></br>
+                            <h1 className="font-medium">Deadline</h1>
                             {task.task.deadline}
                             <br></br>
                             <button onClick={handleDescEdit} className="bg-blue-500 text-white px-1 font-medium rounded hover:bg-blue-600">Edit</button>
+                            <button className="bg-blue-500 text-white px-1 font-medium rounded hover:bg-blue-600">Add Notes</button>
                         </div>
                     }
 

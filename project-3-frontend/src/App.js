@@ -7,7 +7,6 @@ import NavBar from './components/NavBar';
 import FinishSignUp from './components/FinishSignUp';
 import Tasks from './components/Tasks';
 import TaskEdit from './components/TaskEdit';
-import People from './components/People';
 
 const App = () => {
   const [employeeState, setEmployeeState] = useState(null);

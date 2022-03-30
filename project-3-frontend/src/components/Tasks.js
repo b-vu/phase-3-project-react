@@ -17,6 +17,10 @@ const Tasks = ({ employee }) => {
         description: "",
         deadline: ""
     });
+    const [teamData, setTeamData] = useState({
+        teamId: "",
+        title: ""
+    });
 
     console.log("state: ", tasks);
 
@@ -37,26 +41,6 @@ const Tasks = ({ employee }) => {
             team_tasks: data.team_tasks ? data.team_tasks : tasks.team_tasks
         }))
     }, [employee.id, isTeamSelected, isCreatingNewTask]);
-
-    const handleTeamClick = event => {
-        fetch(`http://localhost:9292/team/${employee.id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                teamID: parseInt(event.target.value)
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-            setTasks({
-                ...tasks,
-                team: data.team_id
-            })
-            setisTeamSelected(true);
-         });
-    }
 
     const handleCreateNewTaskToggle = () => {
         setIsCreatingNewTask(!isCreatingNewTask);
@@ -89,17 +73,49 @@ const Tasks = ({ employee }) => {
         });
     }
 
+    const handleTeamChange = event => {
+        setTeamData({
+            ...teamData,
+            [event.target.name]: event.target.value
+        });
+    }
+
+    const handleTeamSubmit = event => {
+        event.preventDefault();
+
+        fetch(`http://localhost:9292/team/${employee.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                teamId: parseInt(teamData.teamId),
+                title: teamData.title
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            setTasks({
+                ...tasks,
+                team: data.team_id
+            })
+            setisTeamSelected(true);
+         });
+    }
+
+    console.log(teamData)
     return(
         <div className="container mx-auto">
             {tasks.team ?
                 <div>
-                    <h1>{tasks.team.name} tasks for {tasks.company.name}</h1>
+                    <h1 className="font-medium">{tasks.team.name} tasks for {tasks.company.name}</h1>
                     {
                         tasks.team_tasks.filter(task => task.completed === false).map(task => {
-                            return <Link to={`/tasks/edit/${task.id}`} key={task.id}>{task.description} Deadline: {task.deadline}<br/></Link>
+                            return <Link className="" to={`/tasks/edit/${task.id}`} key={task.id}>{task.description} Deadline: {task.deadline}<br/></Link>
                         })
                     }
-                    <h1>Your Personal Tasks</h1>
+                    <br></br>
+                    <h1 className="font-medium">Your Personal Tasks</h1>
                     {
                         tasks.personal_tasks.filter(task => task.completed === false).map(task => {
                             return <Link to={`/tasks/edit/${task.id}`} key={task.id}>{task.description} Deadline: {task.deadline}<br/></Link>
@@ -121,25 +137,25 @@ const Tasks = ({ employee }) => {
                                 <br></br>
                                 <button>Submit</button>
                             </form>
-                            <button onClick = {handleCreateNewTaskToggle}>Cancel</button>
+                            <button className="" onClick = {handleCreateNewTaskToggle}>Cancel</button>
                         </div>
                         :
-                        <button onClick = {handleCreateNewTaskToggle}>Create New Task</button>
+                        <button className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600" onClick = {handleCreateNewTaskToggle}>Create New Task</button>
                     }
                     <br></br>
                     <br></br>
 
-                    <h1>Members</h1>
+                    <h1 className="font-medium">Team Members</h1>
                     {
                         tasks.members.map(member => {
-                            return <div key={member.id}>{member.first_name} {member.last_name} ({member.email})</div>
+                            return <div key={member.id}>{member.first_name} {member.last_name} - {member.title} ({member.email})</div>
                         })
                     }
 
                     <br></br>
                     
                     <div>
-                        Completed Tasks
+                        <h1 className="font-medium">Completed Tasks</h1>
                         <br></br>
                         {
                             tasks.team_tasks.filter(task => task.completed).map(task => {
@@ -151,11 +167,20 @@ const Tasks = ({ employee }) => {
             :
             <div>
                 You are not on a team for {tasks.company}. Assign yourself one.
-                {
-                    tasks.company_teams.map(team => {
-                        return <div key={team.id}><button onClick={handleTeamClick} name="team" value={team.id}>{team.name}</button></div>
-                    })
-                }
+                <form onSubmit={handleTeamSubmit}>
+                    {
+                        <select onChange={handleTeamChange} placeholder="Select Your Team" name="teamId" value={teamData.teamId}>
+                            <option value="" disabled>Select Your Team</option>
+                            {
+                                tasks.company_teams.map(team => {
+                                    return <option key={team.id} value={team.id}>{team.name}</option>
+                                })
+                            }
+                        </select>
+                    }
+                    <input onChange={handleTeamChange} placeholder="Job Title" name="title" value={teamData.title}></input>
+                    <button>Submit</button>
+                </form>
             </div>
             }
         </div>

@@ -15,6 +15,7 @@ const FinishSignUp = ({ employee }) => {
         companyId: ""
     });
     const [companies, setCompanies] = useState([]);
+    const [isCreatingACompany, setIsCreatingACompany] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -24,6 +25,23 @@ const FinishSignUp = ({ employee }) => {
     }, []);
 
     const handleChange = event => {
+        if(event.target.value === "create"){
+            setIsCreatingACompany(true);
+            setFormData({
+                ...formData,
+                [event.target.name]: event.target.value
+            })
+        }
+        else{
+            setIsCreatingACompany(false);
+            setFormData({
+                ...formData,
+                [event.target.name]: event.target.value
+            })
+        }
+    }
+
+    const handleInputChange = event => {
         setFormData({
             ...formData,
             [event.target.name]: event.target.value
@@ -33,24 +51,41 @@ const FinishSignUp = ({ employee }) => {
     const handleSubmit = event => {
         event.preventDefault();
 
-        fetch("http://localhost:9292/submit_employee", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                form_data: formData,
-                employee_data: employee
+        if(isCreatingACompany){
+            fetch("http://localhost:9292/create_company", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    form_data: formData,
+                    employee_data: employee
+                })
             })
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            history.push("/");
-        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                history.push("/");
+            });
+        }
+        else{
+            fetch("http://localhost:9292/submit_employee", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    form_data: formData,
+                    employee_data: employee
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                history.push("/");
+            })
+        }
     }
-
-    console.log(formData)
 
     return(
         <div>
@@ -64,11 +99,21 @@ const FinishSignUp = ({ employee }) => {
                 Company 
                 <select onChange={handleChange} name="companyId" placeholder="Select Your Company" value={formData.companyId}>
                     <option value="" disabled>Select Your Company</option>
+                    <option value="create">Create one</option>
                     {
                         companies.map(company => <option key={company.id} name="companyId" value={company.id}>{company.name}</option>)
                     }
                 </select>
                 <br></br>
+                {
+                    isCreatingACompany ?
+                    <>
+                        <input onChange={handleInputChange} name="newCompany" value={formData.companyName}></input>
+                        <br></br>
+                    </>
+                    :
+                    null
+                }
                 <button>Submit</button>
             </form>
         </div>
