@@ -12,6 +12,11 @@ const Tasks = ({ employee }) => {
         members: []
     });
     const [isTeamSelected, setisTeamSelected] = useState(false);
+    const [isCreatingNewTask, setIsCreatingNewTask] = useState(false);
+    const [formData, setFormData] = useState({
+        description: "",
+        deadline: ""
+    });
 
     console.log("state: ", tasks);
 
@@ -22,7 +27,6 @@ const Tasks = ({ employee }) => {
     }
 
     useEffect(() => {
-        console.log("render")
         fetch(`http://localhost:9292/tasks/${employee.id}`)
         .then(res => res.json())
         .then(data => setTasks({
@@ -32,7 +36,7 @@ const Tasks = ({ employee }) => {
             personal_tasks: data.personal_tasks ? data.personal_tasks : tasks.personal_tasks,
             team_tasks: data.team_tasks ? data.team_tasks : tasks.team_tasks
         }))
-    }, [employee.id, isTeamSelected]);
+    }, [employee.id, isTeamSelected, isCreatingNewTask]);
 
     const handleTeamClick = event => {
         fetch(`http://localhost:9292/team/${employee.id}`, {
@@ -54,25 +58,74 @@ const Tasks = ({ employee }) => {
          });
     }
 
+    const handleCreateNewTaskToggle = () => {
+        setIsCreatingNewTask(!isCreatingNewTask);
+    }
+
+    const handleFormDataChange = event => {
+        setFormData({
+            ...formData,
+            [event.target.name]: event.target.value
+        });
+    }
+
+    const handleNewTaskSubmit = event => {
+        event.preventDefault();
+
+        fetch("http://localhost:9292/tasks", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ...formData,
+                team_id: tasks.team.id
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            setIsCreatingNewTask(false);
+        });
+    }
+
     return(
-        <div>
+        <div className="container mx-auto">
             {tasks.team ?
                 <div>
                     <h1>{tasks.team.name} tasks for {tasks.company.name}</h1>
                     {
-                        tasks.team_tasks.map(task => {
+                        tasks.team_tasks.filter(task => task.completed === false).map(task => {
                             return <Link to={`/tasks/edit/${task.id}`} key={task.id}>{task.description} Deadline: {task.deadline}<br/></Link>
                         })
                     }
                     <h1>Your Personal Tasks</h1>
                     {
-                        tasks.personal_tasks.map(task => {
+                        tasks.personal_tasks.filter(task => task.completed === false).map(task => {
                             return <Link to={`/tasks/edit/${task.id}`} key={task.id}>{task.description} Deadline: {task.deadline}<br/></Link>
                         })
                     }
 
                     <br></br>
-                    <button>Create New Task</button>
+                    {
+                        isCreatingNewTask ?
+                        <div>
+                            <form onSubmit={handleNewTaskSubmit}>
+                                Description
+                                <br></br>
+                                <textarea placeholder="Description" onChange={handleFormDataChange} name="description" value={formData.description}></textarea>
+                                <br></br>
+                                Deadline
+                                <br></br>
+                                <input placeholder="Date" onChange={handleFormDataChange} name="deadline" value={formData.deadline}></input>
+                                <br></br>
+                                <button>Submit</button>
+                            </form>
+                            <button onClick = {handleCreateNewTaskToggle}>Cancel</button>
+                        </div>
+                        :
+                        <button onClick = {handleCreateNewTaskToggle}>Create New Task</button>
+                    }
                     <br></br>
                     <br></br>
 
@@ -82,6 +135,18 @@ const Tasks = ({ employee }) => {
                             return <div key={member.id}>{member.first_name} {member.last_name} ({member.email})</div>
                         })
                     }
+
+                    <br></br>
+                    
+                    <div>
+                        Completed Tasks
+                        <br></br>
+                        {
+                            tasks.team_tasks.filter(task => task.completed).map(task => {
+                                return <Link to={`/tasks/edit/${task.id}`} key={task.id}>{task.description}<br/></Link>
+                            })
+                        }
+                    </div>
                 </div>
             :
             <div>

@@ -1,13 +1,16 @@
 module.exports = {
   content: [
-    "./public/index.html",
-    "./src/components/**/*.{html,js}",
-    "./src/pages/**/*.{html,js}"
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      container: {
+        center: true,
+        padding: "1rem"
+      }
+    },
   },
   plugins: [
-    require('@tailwindcss/forms')
+  
   ],
 }

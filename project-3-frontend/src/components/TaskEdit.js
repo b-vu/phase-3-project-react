@@ -118,10 +118,25 @@ const TaskEdit = () => {
                     deadline: data.deadline
                 }
             })
-    });
+        });
     }
 
-    console.log(formData)
+    const handleCompleteTask = () => {
+        fetch(`http://localhost:9292/tasks/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                completed: !task.task.completed
+            })
+        })
+        .then(res => res.json())
+        .then(data => setTask({
+            ...task,
+            task: data
+        }));
+    }
 
     return(
         <div>
@@ -134,7 +149,7 @@ const TaskEdit = () => {
                             <textarea onChange={handleFormChange} name="description" value={formData.description}></textarea>
                             <br></br>
                             <input onChange={handleFormChange} name="deadline" value={formData.deadline}></input>
-                            <button>Edit</button>
+                            <button className="bg-blue-500 text-white px-1 font-medium rounded hover:bg-blue-600">Edit</button>
                         </form>
                         :
                         <div>
@@ -142,23 +157,30 @@ const TaskEdit = () => {
                             <br></br>
                             {task.task.deadline}
                             <br></br>
-                            <button onClick={handleDescEdit}>Edit</button>
+                            <button onClick={handleDescEdit} className="bg-blue-500 text-white px-1 font-medium rounded hover:bg-blue-600">Edit</button>
                         </div>
                     }
 
                     <br></br>
-                    <h1>Current Assigned Members</h1>
+                    <h1 className="font-medium">Current Assigned Members</h1>
                     {
                         task.members.map(member => {
-                            return <div key={member.id} id={member.id}>{member.first_name} {member.last_name} ({member.email}) <button onClick={handleRemoveMember}>Remove</button></div>
+                            return <div key={member.id} id={member.id}>{member.first_name} {member.last_name} ({member.email}) <button className="bg-red-500 text-white px-1 font-medium rounded hover:bg-red-600" onClick={handleRemoveMember}>Remove</button></div>
                         })
                     }
-
-                    <h1>Add Team Members</h1>
+                    <br></br>
+                    <h1 className="font-medium">Add Team Members</h1>
                     {
                         task.team_members.map(member => {
-                            return <div key={member.id} id={member.id}>{member.first_name} {member.last_name} ({member.email}) <button onClick={handleAddMember}>Add</button></div>
+                            return <div key={member.id} id={member.id}>{member.first_name} {member.last_name} ({member.email}) <button className="bg-green-500 text-white px-1 font-medium rounded hover:bg-green-600" onClick={handleAddMember}>Add</button></div>
                         })
+                    }
+                    <br></br>
+                    {
+                        task.task.completed ?
+                        <button onClick={handleCompleteTask} className="bg-green-500 text-white px-1 font-medium rounded hover:bg-red-600">Task Completed</button>
+                        :
+                        <button onClick={handleCompleteTask} className="bg-red-500 text-white px-1 font-medium rounded hover:bg-green-600">Mark Task Completed</button>
                     }
                 </div>
                 :null
