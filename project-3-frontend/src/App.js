@@ -5,6 +5,8 @@ import { Route, Switch, useHistory } from "react-router-dom";
 import Dashboard from './components/Dashboard';
 import NavBar from './components/NavBar';
 import FinishSignUp from './components/FinishSignUp';
+import Tasks from './components/Tasks';
+import TaskEdit from './components/TaskEdit';
 import People from './components/People';
 
 const App = () => {
@@ -39,6 +41,12 @@ const App = () => {
       <Switch>
         <Route exact path="/dashboard">
           <Dashboard employee={employeeState}/>
+        </Route>
+        <Route exact path="/tasks">
+          <Tasks employee={employeeState}></Tasks>
+        </Route>
+        <Route exact path="/tasks/edit/:id">
+          <TaskEdit></TaskEdit>
         </Route>
         <Route exact path="/finish_sign_up">
           <FinishSignUp employee={employeeState}/>

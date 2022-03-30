@@ -6,11 +6,12 @@ import LogoutButton from './LogoutButton';
 const NavBar = ({ employee }) => {
     return(
         <nav>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/">Home </NavLink>
             {
                 employee ?
                 <>
-                    <NavLink to="/dashboard">Dashboard</NavLink>
+                    <NavLink to="/dashboard">Dashboard </NavLink>
+                    <NavLink to="/tasks">Tasks </NavLink>
                     <LogoutButton></LogoutButton>
                 </>
                 : <LoginButton></LoginButton>

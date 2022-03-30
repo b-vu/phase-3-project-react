@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import People from "./People";
 
 const Dashboard = ({ employee }) => {
-  const { user, isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+  const { user, isLoading, loginWithRedirect } = useAuth0();
 
   if(!user) {
     loginWithRedirect();
@@ -27,13 +28,15 @@ const Dashboard = ({ employee }) => {
       <div>
         <h2>{employee.first_name}</h2>
         <p>{employee.email}</p>
-        <p>{userInfo.company.company_info.name}</p>
+        <p>Your Company: {userInfo.company.company_info.name}</p>
         {
-          userInfo.company.teams.map(team => <p key={team.id}>{team.name}</p>)
+          userInfo.employee.team_id ?
+          <p>Your team: </p>
+          :
+          <p>You are not on a team for {userInfo.company.company_info.name}. Assign yourself one.
+          </p>
         }
-        {
-          userInfo.employee.team_id ? <p>Your team: </p> : <p>No team</p>
-        }
+        <People></People>
       </div>
     )
     : null
