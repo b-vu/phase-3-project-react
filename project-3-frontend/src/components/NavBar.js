@@ -5,18 +5,46 @@ import LogoutButton from './LogoutButton';
 
 const NavBar = ({ employee }) => {
     return(
-        <nav>
-            <NavLink to="/">Home </NavLink>
+        <nav
+        className="flex justify-between items-center h-16 bg-blue-500 text-white relative shadow-md"
+        role="navigation"
+      >
+        <NavLink to="/" className="pl-8">
+          Workflow
+        </NavLink>
+        <div className="px-4 cursor-pointer md:hidden">
+          <svg
+            className="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </div>
+        <div className="pr-8 md:block hidden">
             {
                 employee ?
                 <>
-                    <NavLink to="/dashboard">Dashboard </NavLink>
-                    <NavLink to="/tasks">Tasks </NavLink>
-                    <LogoutButton></LogoutButton>
+                <NavLink to="/dashboard" className="p-4">
+                    Dashboard
+                </NavLink>
+                <NavLink to="/tasks" className="p-4">
+                    Tasks
+                </NavLink>
+                <LogoutButton></LogoutButton>
                 </>
-                : <LoginButton></LoginButton>
+                : 
+                <LoginButton></LoginButton>
             }
-        </nav>
+        </div>
+      </nav>
     )
 }
 
