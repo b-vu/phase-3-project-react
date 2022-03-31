@@ -4,6 +4,7 @@ import CreateNote from "../modals/createNote";
 import Member from "./Member";
 
 const TaskEdit = () => {
+    const [notes, setNotes] = useState([])
     const [task, setTask] = useState(null);
     const [formData, setFormData] = useState({
         description: "",
@@ -27,6 +28,12 @@ const TaskEdit = () => {
             })
         });
     }, [id]);
+
+    useEffect(() => {
+        fetch(`http://localhost:9292/notes/${id}`)
+        .then(rsp => rsp.json())
+        .then(data => setNotes(data))
+    }, [])
 
     const handleRemoveMember = event => {
         const employeeId = parseInt(event.target.parentNode.id);
@@ -170,9 +177,9 @@ const TaskEdit = () => {
                         </div>
                         
                     }
-                    <br></br>
-                    <button onClick={() => setModal(true)} className="bg-red-500 text-white px-1 font-medium rounded hover:bg-blue-600">+ Note</button>
-                            <CreateNote task={task} toggle={toggle} modal={modal}/>
+                    <>{notes.map((note) => note.description)}</>
+                    <button onClick={() => setModal(true)} className="bg-red-500 text-white px-1 font-medium rounded hover:bg-blue-600">Add Note</button>
+                            <CreateNote notes={notes} setNotes={setNotes} task={task} toggle={toggle} modal={modal}/>
 
                     <br></br>
                     <h1 className="font-medium">Current Assigned Members</h1>

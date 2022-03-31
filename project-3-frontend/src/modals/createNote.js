@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import { Modal, ModalBody, ModalHeader, Button, ModalFooter } from 'reactstrap';
-import {useHistory} from 'react-router-dom'
 
 
-const CreateNote = ({modal, toggle, task}) => {
 
-    const history = useHistory()
+const CreateNote = ({modal, toggle, task, setNotes, notes}) => {
+
     const [description, setDescription] = useState('')
 
     const handleChange = (e) => {
@@ -21,6 +20,7 @@ const CreateNote = ({modal, toggle, task}) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         const email = JSON.parse(localStorage.getItem("@@auth0spajs@@::9iUn0B7TZIiF5oKjdOlFyEJivnKykuWb::default::openid profile email")).body.decodedToken.user.email
+        
 
         fetch("http://localhost:9292/notes", {
             method: 'POST',
@@ -34,8 +34,13 @@ const CreateNote = ({modal, toggle, task}) => {
             })
         })
         .then(resp => resp.json())
-        .then(console.log("hold"))
-        toggle(false)
+        .then(data => {
+            toggle(false)
+            setNotes([...notes,data])
+            setDescription('')
+        
+        })
+        
         
     }
     
@@ -60,7 +65,7 @@ const CreateNote = ({modal, toggle, task}) => {
             <Button color="primary" onClick={handleSubmit}>
               Create
             </Button>{" "}
-            <Button onClick={function noRefCheck() {}}>Cancel</Button>
+            <Button onClick={() => toggle(false)}>Cancel</Button>
           </ModalFooter>
         </Modal>
       </div>
