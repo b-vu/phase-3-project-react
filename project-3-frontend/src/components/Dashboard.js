@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import Member from "./Member";
 
 const Dashboard = ({ employee }) => {
   const { user, isLoading, loginWithRedirect } = useAuth0();
@@ -80,7 +81,7 @@ const Dashboard = ({ employee }) => {
               return <div className="" key={team.id}>
                 <h1 className="font-medium">{team.name}</h1>
                 {userInfo.employees.filter(e => e.team_id === team.id).map(e =>{
-                  return <div key={e.id}>{`${e.first_name} ${e.last_name} - ${e.title} (${e.email})`}</div>
+                  return <Member key={e.id} member={e}></Member>
                 })}
                 <br></br>
               </div>

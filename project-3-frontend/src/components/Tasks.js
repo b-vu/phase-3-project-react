@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
+import Member from "./Member";
+import Task from "./Task";
 
 const Tasks = ({ employee }) => {
     const [tasks, setTasks] = useState({
@@ -68,8 +70,11 @@ const Tasks = ({ employee }) => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             setIsCreatingNewTask(false);
+            setFormData({
+                description: "",
+                deadline: ""
+            })
         });
     }
 
@@ -111,14 +116,14 @@ const Tasks = ({ employee }) => {
                     <h1 className="font-medium">{tasks.team.name} tasks for {tasks.company.name}</h1>
                     {
                         tasks.team_tasks.filter(task => task.completed === false).map(task => {
-                            return <Link className="" to={`/tasks/edit/${task.id}`} key={task.id}>{task.description} Deadline: {task.deadline}<br/></Link>
+                            return <Link className="" to={`/tasks/edit/${task.id}`} key={task.id}><Task task={task}></Task></Link>
                         })
                     }
                     <br></br>
                     <h1 className="font-medium">Your Personal Tasks</h1>
                     {
                         tasks.personal_tasks.filter(task => task.completed === false).map(task => {
-                            return <Link to={`/tasks/edit/${task.id}`} key={task.id}>{task.description} Deadline: {task.deadline}<br/></Link>
+                            return <Link to={`/tasks/edit/${task.id}`} key={task.id}><Task task={task}></Task></Link>
                         })
                     }
 
@@ -129,15 +134,15 @@ const Tasks = ({ employee }) => {
                             <form onSubmit={handleNewTaskSubmit}>
                                 Description
                                 <br></br>
-                                <textarea placeholder="Description" onChange={handleFormDataChange} name="description" value={formData.description}></textarea>
+                                <textarea className="resize px-3 py-2 text-black border rounded-lg focus:outline w-1/4 focus:border-blue-600 focus:outline-none" rows="4" placeholder="Description" onChange={handleFormDataChange} name="description" value={formData.description}></textarea>
                                 <br></br>
                                 Deadline
                                 <br></br>
-                                <input placeholder="Date" onChange={handleFormDataChange} name="deadline" value={formData.deadline}></input>
+                                <input className="px-3 py-2 text-black border rounded-lg focus:outline w-1/4 focus:border-blue-600 focus:outline-none" placeholder="Date" onChange={handleFormDataChange} name="deadline" value={formData.deadline}></input>
                                 <br></br>
-                                <button>Submit</button>
+                                <button className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600 mt-2">Submit</button>
                             </form>
-                            <button className="" onClick = {handleCreateNewTaskToggle}>Cancel</button>
+                            <button className="bg-red-500 text-white px-2 py-2 font-medium rounded hover:bg-red-600 mt-2" onClick = {handleCreateNewTaskToggle}>Cancel</button>
                         </div>
                         :
                         <button className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600" onClick = {handleCreateNewTaskToggle}>Create New Task</button>
@@ -148,7 +153,7 @@ const Tasks = ({ employee }) => {
                     <h1 className="font-medium">Team Members</h1>
                     {
                         tasks.members.map(member => {
-                            return <div key={member.id}>{member.first_name} {member.last_name} - {member.title} ({member.email})</div>
+                            return <Member key={member.id} member={member}></Member>
                         })
                     }
 
@@ -159,7 +164,7 @@ const Tasks = ({ employee }) => {
                         <br></br>
                         {
                             tasks.team_tasks.filter(task => task.completed).map(task => {
-                                return <Link to={`/tasks/edit/${task.id}`} key={task.id}>{task.description}<br/></Link>
+                                return <Link to={`/tasks/edit/${task.id}`} key={task.id}><Task task={task}></Task></Link>
                             })
                         }
                     </div>
