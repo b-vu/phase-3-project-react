@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import CreateNote from "../modals/createNote";
 import Member from "./Member";
 
 const TaskEdit = () => {
@@ -138,6 +139,11 @@ const TaskEdit = () => {
             task: data
         }));
     }
+    const [modal, setModal] = useState(false)
+
+    const toggle = () => {
+        setModal(!modal)
+    }
 
     return(
         <div className="container">
@@ -160,9 +166,13 @@ const TaskEdit = () => {
                             {task.task.deadline}
                             <br></br>
                             <button onClick={handleDescEdit} className="bg-blue-500 text-white px-1 font-medium rounded hover:bg-blue-600">Edit</button>
-                            <button className="bg-blue-500 text-white px-1 font-medium rounded hover:bg-blue-600">Add Notes</button>
+                            
                         </div>
+                        
                     }
+                    <br></br>
+                    <button onClick={() => setModal(true)} className="bg-red-500 text-white px-1 font-medium rounded hover:bg-blue-600">+ Note</button>
+                            <CreateNote task={task} toggle={toggle} modal={modal}/>
 
                     <br></br>
                     <h1 className="font-medium">Current Assigned Members</h1>
