@@ -35,6 +35,7 @@ const CreateNote = ({modal, toggle, task}) => {
         })
         .then(resp => resp.json())
         .then(console.log("hold"))
+        toggle(false)
         
     }
     
