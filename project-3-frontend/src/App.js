@@ -7,6 +7,8 @@ import NavBar from './components/NavBar';
 import FinishSignUp from './components/FinishSignUp';
 import Tasks from './components/Tasks';
 import TaskEdit from './components/TaskEdit';
+import Teams from './components/Teams'
+
 
 const App = () => {
   const [employeeState, setEmployeeState] = useState(null);
@@ -43,6 +45,9 @@ const App = () => {
         </Route>
         <Route exact path="/tasks">
           <Tasks employee={employeeState}></Tasks>
+        </Route>
+        <Route exact path="/teams">
+          <Teams></Teams>
         </Route>
         <Route exact path="/tasks/edit/:id">
           <TaskEdit></TaskEdit>
