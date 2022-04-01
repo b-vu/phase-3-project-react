@@ -8,6 +8,7 @@ import FinishSignUp from './components/FinishSignUp';
 import Tasks from './components/Tasks';
 import TaskEdit from './components/TaskEdit';
 import Teams from './components/Teams'
+import Home from './components/Home';
 
 
 const App = () => {
@@ -56,7 +57,7 @@ const App = () => {
           <FinishSignUp employee={employeeState}/>
         </Route>
         <Route path="/">
-          
+          <Home isAuthenticated={isAuthenticated}></Home>
         </Route>
       </Switch>
     </div>

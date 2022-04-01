@@ -5,7 +5,7 @@ import LogoutButton from './LogoutButton';
 
 const NavBar = ({ employee }) => {
     return(
-        <nav
+      <nav
         className="flex justify-between items-center h-16 bg-blue-500 text-white relative shadow-md"
         role="navigation"
       >

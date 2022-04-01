@@ -59,7 +59,7 @@ const Dashboard = ({ employee }) => {
 
   return (
     userInfo ? (
-      <div className="container">
+      <div className="container min-h-screen bg-gray-300">
         <h1 className="font-medium">{employee.first_name} {employee.last_name}</h1>
         <h2>{employee.email}</h2>
         {

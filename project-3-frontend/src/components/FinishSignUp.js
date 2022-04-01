@@ -12,6 +12,7 @@ const FinishSignUp = ({ employee }) => {
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
+        picture: "",
         companyId: ""
     });
     const [companies, setCompanies] = useState([]);
@@ -88,16 +89,15 @@ const FinishSignUp = ({ employee }) => {
     }
 
     return(
-        <div>
-            Let's finalize some details
-            <br></br>
+        <div className="container bg-gray-300 min-h-screen flex justify-center">
             <form onSubmit={handleSubmit}>
-                First Name <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name"></input>
+                <h1 className="font-medium">Let's finalize some details</h1>
+                <input className="px-3 py-2 text-black border rounded-lg focus:outline w-full focus:border-blue-600 focus:outline-none mb-2" type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name"></input>
                 <br></br>
-                Last Name <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name"></input>
+                <input className="px-3 py-2 text-black border rounded-lg focus:outline w-full focus:border-blue-600 focus:outline-none mb-2" type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name"></input>
                 <br></br>
-                Company 
-                <select onChange={handleChange} name="companyId" placeholder="Select Your Company" value={formData.companyId}>
+                <input className="px-3 py-2 text-black border rounded-lg focus:outline w-full focus:border-blue-600 focus:outline-none mb-2" type="text" name="picture" value={formData.picture} onChange={handleChange} placeholder="Picture"></input>
+                <select className="px-3 py-2 text-black border rounded-lg focus:outline w-full focus:border-blue-600 focus:outline-none" onChange={handleChange} name="companyId" placeholder="Select Your Company" value={formData.companyId}>
                     <option value="" disabled>Select Your Company</option>
                     <option value="create">Create one</option>
                     {
@@ -114,7 +114,7 @@ const FinishSignUp = ({ employee }) => {
                     :
                     null
                 }
-                <button>Submit</button>
+                <button className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600 mt-2 mr-2">Submit</button>
             </form>
         </div>
     )
