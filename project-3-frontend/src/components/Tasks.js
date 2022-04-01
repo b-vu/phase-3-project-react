@@ -110,61 +110,67 @@ const Tasks = ({ employee }) => {
 
     console.log(teamData)
     return(
-        <div className="container mx-auto">
+        <div className="container mx-auto mt-2">
             {tasks.team ?
-                <div>
-                    <h1 className="font-medium">{tasks.team.name} tasks for {tasks.company.name}</h1>
-                    {
-                        tasks.team_tasks.filter(task => task.completed === false).map(task => {
-                            return <Link className="" to={`/tasks/edit/${task.id}`} key={task.id}><Task task={task}></Task></Link>
-                        })
-                    }
-                    <br></br>
-                    <h1 className="font-medium">Your Personal Tasks</h1>
-                    {
-                        tasks.personal_tasks.filter(task => task.completed === false).map(task => {
-                            return <Link to={`/tasks/edit/${task.id}`} key={task.id}><Task task={task}></Task></Link>
-                        })
-                    }
-
-                    <br></br>
-                    {
-                        isCreatingNewTask ?
+                <div className="">
+                    <div className="grid grid-cols-3 mb-4 gap-5 text-center">
                         <div>
-                            <form onSubmit={handleNewTaskSubmit}>
-                                Description
-                                <br></br>
-                                <textarea className="resize px-3 py-2 text-black border rounded-lg focus:outline w-1/4 focus:border-blue-600 focus:outline-none" rows="4" placeholder="Description" onChange={handleFormDataChange} name="description" value={formData.description}></textarea>
-                                <br></br>
-                                Deadline
-                                <br></br>
-                                <input className="px-3 py-2 text-black border rounded-lg focus:outline w-1/4 focus:border-blue-600 focus:outline-none" placeholder="Date" onChange={handleFormDataChange} name="deadline" value={formData.deadline}></input>
-                                <br></br>
-                                <button className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600 mt-2">Submit</button>
-                            </form>
-                            <button className="bg-red-500 text-white px-2 py-2 font-medium rounded hover:bg-red-600 mt-2" onClick = {handleCreateNewTaskToggle}>Cancel</button>
+                            <h1 className="font-medium">{tasks.team.name} tasks</h1>
+                            {
+                                tasks.team_tasks.filter(task => task.completed === false).map(task => {
+                                    return <Link className="" to={`/tasks/edit/${task.id}`} key={task.id} style={{ textDecoration: 'none' }}><Task task={task}></Task></Link>
+                                })
+                            }
                         </div>
-                        :
-                        <button className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600" onClick = {handleCreateNewTaskToggle}>Create New Task</button>
-                    }
-                    <br></br>
-                    <br></br>
 
-                    <h1 className="font-medium">Team Members</h1>
-                    {
-                        tasks.members.map(member => {
-                            return <Member key={member.id} member={member}></Member>
-                        })
-                    }
+                        <div>
+                            <h1 className="font-medium">Your Personal Tasks</h1>
+                            {
+                                tasks.personal_tasks.filter(task => task.completed === false).map(task => {
+                                    return <Link to={`/tasks/edit/${task.id}`} key={task.id} style={{ textDecoration: 'none' }}><Task task={task}></Task></Link>
+                                })
+                            }
+                        </div>
 
-                    <br></br>
-                    
-                    <div>
-                        <h1 className="font-medium">Completed Tasks</h1>
-                        <br></br>
+                        <div>
+                            <h1 className="font-medium">Completed Tasks</h1>
+                            <br></br>
+                            {
+                                tasks.team_tasks.filter(task => task.completed).map(task => {
+                                    return <Link to={`/tasks/edit/${task.id}`} key={task.id} style={{ textDecoration: 'none' }}><Task task={task}></Task></Link>
+                                })
+                            }
+                        </div>
+                    </div>
+                    <div className="flex justify-center">
                         {
-                            tasks.team_tasks.filter(task => task.completed).map(task => {
-                                return <Link to={`/tasks/edit/${task.id}`} key={task.id}><Task task={task}></Task></Link>
+                            isCreatingNewTask ?
+                            <div className="flex justify-center">
+                                <form onSubmit={handleNewTaskSubmit}>
+                                    Description
+                                    <br></br>
+                                    <textarea className="resize px-3 py-2 text-black border rounded-lg focus:outline w-96 focus:border-blue-600 focus:outline-none" rows="4" placeholder="Description" onChange={handleFormDataChange} name="description" value={formData.description}></textarea>
+                                    <br></br>
+                                    Deadline
+                                    <br></br>
+                                    <input className="px-3 py-2 text-black border rounded-lg focus:outline w-full focus:border-blue-600 focus:outline-none" placeholder="Date" onChange={handleFormDataChange} name="deadline" value={formData.deadline}></input>
+                                    <br></br>
+                                    <button className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600 mt-2 mr-2">Submit</button>
+                                    <button className="bg-red-500 text-white px-2 py-2 font-medium rounded hover:bg-red-600 mt-2" onClick = {handleCreateNewTaskToggle}>Cancel</button>
+                                </form>
+                            </div>
+                            :
+                            <button className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600" onClick = {handleCreateNewTaskToggle}>Create New Task</button>
+                        }
+                    </div>
+                    <br></br>
+                    <br></br>
+
+                    <h1 className="font-medium text-center">Team Members</h1>
+                    <div className="columns-3 gap-5">
+                        {
+                            tasks.members.map(member => {
+                                return <Member key={member.id} member={member}></Member>
                             })
                         }
                     </div>

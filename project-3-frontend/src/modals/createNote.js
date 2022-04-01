@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
 import { Modal, ModalBody, ModalHeader, Button, ModalFooter } from 'reactstrap';
-import {useHistory} from 'react-router-dom'
-
 
 const CreateNote = ({modal, toggle, task}) => {
-
-    const history = useHistory()
     const [description, setDescription] = useState('')
 
     const handleChange = (e) => {
@@ -16,7 +12,6 @@ const CreateNote = ({modal, toggle, task}) => {
             setDescription(value)
         }
     }
-    console.log(description)
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -35,10 +30,8 @@ const CreateNote = ({modal, toggle, task}) => {
         })
         .then(resp => resp.json())
         .then(console.log("hold"))
-        
     }
     
-
     return (
       <div>
         <Modal isOpen={modal}>
@@ -59,7 +52,7 @@ const CreateNote = ({modal, toggle, task}) => {
             <Button color="primary" onClick={handleSubmit}>
               Create
             </Button>{" "}
-            <Button onClick={function noRefCheck() {}}>Cancel</Button>
+            <Button onClick={() => toggle(false)}>Cancel</Button>
           </ModalFooter>
         </Modal>
       </div>

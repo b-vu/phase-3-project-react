@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CreateNote from "../modals/createNote";
-import Member from "./Member";
 
 const TaskEdit = () => {
     const [task, setTask] = useState(null);
@@ -153,72 +152,71 @@ const TaskEdit = () => {
                     {
                         formData.edit ?
                         <form onSubmit={handleSubmit}>
-                            <textarea onChange={handleFormChange} name="description" value={formData.description}></textarea>
+                            <textarea onChange={handleFormChange} name="description" value={formData.description} className="resize px-3 py-2 text-black border rounded-lg focus:outline w-96 focus:border-blue-600 focus:outline-none mt-3" rows="4"></textarea>
                             <br></br>
-                            <input onChange={handleFormChange} name="deadline" value={formData.deadline}></input>
-                            <button className="bg-blue-500 text-white px-1 font-medium rounded hover:bg-blue-600">Edit</button>
+                            <input onChange={handleFormChange} name="deadline" value={formData.deadline} className="px-3 py-2 text-black border rounded-lg focus:outline w-96 focus:border-blue-600 focus:outline-none"></input>
+                            <br></br>
+                            <button className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600 mt-2 mb-2">Edit</button>
                         </form>
                         :
                         <div>
-                            {task.task.description}
-                            <br></br>
-                            <h1 className="font-medium">Deadline</h1>
-                            {task.task.deadline}
-                            <br></br>
-                            <button onClick={handleDescEdit} className="bg-blue-500 text-white px-1 font-medium rounded hover:bg-blue-600">Edit</button>
+                            <h1>{task.task.description}</h1>
+                            <h1 className="font-medium">Deadline: {task.task.deadline}</h1>
+                            <button onClick={handleDescEdit} className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600 mb-2">Edit</button>
                             
                         </div>
-                        
                     }
-                    <br></br>
-                    <button onClick={() => setModal(true)} className="bg-red-500 text-white px-1 font-medium rounded hover:bg-blue-600">+ Note</button>
+                    <button onClick={() => setModal(true)} className="bg-red-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600 mb-2">+ Note</button>
                             <CreateNote task={task} toggle={toggle} modal={modal}/>
 
-                    <br></br>
-                    <h1 className="font-medium">Current Assigned Members</h1>
-                    {
-                        task.members.map(member => {
-                            return <div className="m-auto pb-2" key={member.id}>
-                                <div className="flex bg-gray-200 max-w-sm shadow-md py-4 px-10 md:px-8 rounded-md">
-                                    <div className="flex flex-col md:flex-row gap-6 md:gap-8">
-                                        <img className="rounded-full border-4 border-gray-300 h-24 w-24 mx-auto" src="https://randomuser.me/api/portraits/men/29.jpg" alt="" />
-                                        <div className=" flex-col text-center md:text-left" id={member.id}>
-                                            <div className="font-medium text-lg text-gray-800">{member.first_name} {member.last_name}</div>
-                                            <div className="text-gray-800 whitespace-nowrap">{member.title}</div>
-                                            <div className="text-gray-800 whitespace-nowrap">{member.email}</div>
-                                            <button className="bg-red-500 text-white px-1 font-medium rounded hover:bg-red-600" onClick={handleRemoveMember}>Remove</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        })
-                    }
-                    <br></br>
-                    <h1 className="font-medium">Add Team Members</h1>
-                    {
-                        task.team_members.map(member => {
-                            return <div className="m-auto pb-2" key={member.id}>
-                                <div className="flex bg-gray-200 max-w-sm shadow-md py-4 px-10 md:px-8 rounded-md">
-                                    <div className="flex flex-col md:flex-row gap-6 md:gap-8">
-                                        <img className="rounded-full border-4 border-gray-300 h-24 w-24 mx-auto" src="https://randomuser.me/api/portraits/men/29.jpg" alt="" />
-                                        <div className=" flex-col text-center md:text-left" id={member.id}>
-                                            <div className="font-medium text-lg text-gray-800">{member.first_name} {member.last_name}</div>
-                                            <div className="text-gray-800 whitespace-nowrap">{member.title}</div>
-                                            <div className="text-gray-800 whitespace-nowrap">{member.email}</div>
-                                            <button className="bg-green-500 text-white px-1 font-medium rounded hover:bg-green-600" onClick={handleAddMember}>Add</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        })
-                    }
-                    <br></br>
                     {
                         task.task.completed ?
-                        <button onClick={handleCompleteTask} className="bg-green-500 text-white px-2 py-1 font-medium rounded hover:bg-red-600">Task Completed</button>
+                        <button onClick={handleCompleteTask} className="bg-green-500 text-white px-2 py-2 font-medium rounded hover:bg-red-600">Task Completed</button>
                         :
-                        <button onClick={handleCompleteTask} className="bg-red-500 text-white px-2 py-1 font-medium rounded hover:bg-green-600">Incomplete</button>
+                        <button onClick={handleCompleteTask} className="bg-red-500 text-white px-2 py-2 font-medium rounded hover:bg-green-600">Incomplete</button>
                     }
+                    <div className="grid grid-cols-2 mb-4 gap-5">
+                        <div>
+                            <h1 className="font-medium">Current Assigned Members</h1>
+                            {
+                                task.members.map(member => {
+                                    return <div className="m-auto pb-2" key={member.id}>
+                                        <div className="flex bg-gray-200 max-w-sm shadow-md py-4 px-10 md:px-8 rounded-md">
+                                            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+                                                <img className="rounded-full border-4 border-gray-300 h-24 w-24 mx-auto" src="https://randomuser.me/api/portraits/men/29.jpg" alt="" />
+                                                <div className="flex-col md:text-left" id={member.id}>
+                                                    <div className="font-medium text-lg text-gray-800">{member.first_name} {member.last_name}</div>
+                                                    <div className="text-gray-800 whitespace-nowrap">{member.title}</div>
+                                                    <div className="text-gray-800 whitespace-nowrap">{member.email}</div>
+                                                    <button className="bg-red-500 text-white px-1 font-medium rounded hover:bg-red-600" onClick={handleRemoveMember}>Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                })
+                            }
+                        </div>
+                        <div>
+                            <h1 className="font-medium">Add Team Members</h1>
+                            {
+                                task.team_members.map(member => {
+                                    return <div className="m-auto pb-2" key={member.id}>
+                                        <div className="flex bg-gray-200 max-w-sm shadow-md py-4 px-10 md:px-8 rounded-md">
+                                            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+                                                <img className="rounded-full border-4 border-gray-300 h-24 w-24 mx-auto" src="https://randomuser.me/api/portraits/men/29.jpg" alt="" />
+                                                <div className=" flex-col md:text-left" id={member.id}>
+                                                    <div className="font-medium text-lg text-gray-800">{member.first_name} {member.last_name}</div>
+                                                    <div className="text-gray-800 whitespace-nowrap">{member.title}</div>
+                                                    <div className="text-gray-800 whitespace-nowrap">{member.email}</div>
+                                                    <button className="bg-green-500 text-white px-1 font-medium rounded hover:bg-green-600" onClick={handleAddMember}>Add</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                })
+                            }
+                        </div>
+                    </div>
                 </div>
                 :null
             }

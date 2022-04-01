@@ -61,7 +61,7 @@ const Dashboard = ({ employee }) => {
     userInfo ? (
       <div className="container">
         <h1 className="font-medium">{employee.first_name} {employee.last_name}</h1>
-        <p>{employee.email}</p>
+        <h2>{employee.email}</h2>
         {
           userInfo.employee.team_id ?
           <p>
@@ -72,35 +72,35 @@ const Dashboard = ({ employee }) => {
           :
           <p>You are not on a team for {userInfo.company.company_info.name}.</p>
         }
-        <br></br>
-        <div>
+        <div className="">
           <h1 className="font-medium">{userInfo.company.company_info.name} Teams</h1>
-          <br></br>
-          {
-            userInfo.company.teams.map(team => {
-              return <div className="" key={team.id}>
-                <h1 className="font-medium">{team.name}</h1>
-                {userInfo.employees.filter(e => e.team_id === team.id).map(e =>{
-                  return <Member key={e.id} member={e}></Member>
-                })}
-                <br></br>
-              </div>
-            })
-          }
-
           {
             isCreatingNewTeam ?
             <div>
               <form onSubmit={handleFormSubmit}>
-                <input onChange={handleFormChange} name="teamName" value={formData.teamName}></input>
+                <input className="px-3 py-2 text-black border rounded-lg focus:outline w-96 focus:border-blue-600 focus:outline-none mb-2" placeholder="Team Name" onChange={handleFormChange} name="teamName" value={formData.teamName}></input>
                 <br></br>
-                <button className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600">Create Team</button>
+                <button className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600 mr-2">Create Team</button>
                 <button onClick={handleToggleCreateNewTeam} className="bg-red-500 text-white px-2 py-2 font-medium rounded hover:bg-red-600">Cancel</button>
               </form>
             </div>
             :
             <button onClick={handleToggleCreateNewTeam} className="bg-blue-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600">Create Team</button>
           }
+          <br></br>
+          <div className="flex columns-3 gap-5">
+            {
+              userInfo.company.teams.map(team => {
+                return <div className="column" key={team.id}>
+                  <h1 className="font-medium">{team.name}</h1>
+                  {userInfo.employees.filter(e => e.team_id === team.id).map(e =>{
+                    return <Member key={e.id} member={e}></Member>
+                  })}
+                  <br></br>
+                </div>
+              })
+            }
+          </div>
         </div>
       </div>
     )
