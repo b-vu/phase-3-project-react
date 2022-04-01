@@ -38,7 +38,7 @@ const App = () => {
   console.log(employeeState)
 
   return (
-    <div className='bg-gray-300'>
+    <div className='bg-gray-300 font-mono'>
       <NavBar employee={employeeState}/>
       <Switch>
         <Route exact path="/dashboard">

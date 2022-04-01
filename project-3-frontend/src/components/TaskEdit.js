@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CreateNote from "../modals/createNote";
+import Note from "./Note";
 
 const TaskEdit = () => {
     const [notes, setNotes] = useState([])
@@ -173,12 +174,13 @@ const TaskEdit = () => {
                             
                         </div>
                     }
-                    
-                    <>{notes.map((note) => note.description)}</>
+
+                    {notes.map((note) => <Note note={note} />)}
                     <button onClick={() => setModal(true)} className="bg-red-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600 mb-2">Add Note</button>
                             <CreateNote notes={notes} setNotes={setNotes} task={task} toggle={toggle} modal={modal}/>
 
                     {
+
                         task.task.completed ?
                         <button onClick={handleCompleteTask} className="bg-green-500 text-white px-2 py-2 font-medium rounded hover:bg-red-600">Task Completed</button>
                         :
@@ -190,7 +192,7 @@ const TaskEdit = () => {
                             {
                                 task.members.map(member => {
                                     return <div className="m-auto pb-2" key={member.id}>
-                                        <div className="flex bg-gray-200 max-w-sm shadow-md py-4 px-10 md:px-8 rounded-md">
+                                        <div className="flex bg-gray-200 max-w-sm shadow-lg py-4 px-10 md:px-8 rounded-md">
                                             <div className="flex flex-col md:flex-row gap-6 md:gap-8">
                                                 <img className="rounded-full border-4 border-gray-300 h-24 w-24 mx-auto" src={member.picture} alt={member.first_name}/>
                                                 <div className="flex-col md:text-left" id={member.id}>
@@ -210,7 +212,7 @@ const TaskEdit = () => {
                             {
                                 task.team_members.map(member => {
                                     return <div className="m-auto pb-2" key={member.id}>
-                                        <div className="flex bg-gray-200 max-w-sm shadow-md py-4 px-10 md:px-8 rounded-md">
+                                        <div className="flex bg-gray-200 max-w-sm shadow-lg py-4 px-10 md:px-8 rounded-md">
                                             <div className="flex flex-col md:flex-row gap-6 md:gap-8">
                                                 <img className="rounded-full border-4 border-gray-300 h-24 w-24 mx-auto" src={member.picture} alt={member.first_name}/>
                                                 <div className=" flex-col md:text-left" id={member.id}>
