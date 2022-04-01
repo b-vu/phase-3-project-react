@@ -135,8 +135,7 @@ const Tasks = ({ employee }) => {
                                 Description
                                 <br></br>
                                 <textarea className="resize px-3 py-2 text-black border rounded-lg focus:outline w-1/4 focus:border-blue-600 focus:outline-none" rows="4" placeholder="Description" onChange={handleFormDataChange} name="description" value={formData.description}></textarea>
-                                <br></br>
-                                Deadline
+                                <h1>Deadline</h1>
                                 <br></br>
                                 <input className="px-3 py-2 text-black border rounded-lg focus:outline w-1/4 focus:border-blue-600 focus:outline-none" placeholder="Date" onChange={handleFormDataChange} name="deadline" value={formData.deadline}></input>
                                 <br></br>

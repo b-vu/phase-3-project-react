@@ -35,9 +35,6 @@ const NavBar = ({ employee }) => {
                 <NavLink to="/dashboard" className="p-4">
                     Dashboard
                 </NavLink>
-                <NavLink to="/teams" className="p-4">
-                    Teams
-                </NavLink>
                 <NavLink to="/tasks" className="p-4">
                     Tasks
                 </NavLink>
