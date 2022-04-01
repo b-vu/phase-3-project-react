@@ -8,6 +8,7 @@ import FinishSignUp from './components/FinishSignUp';
 import Tasks from './components/Tasks';
 import TaskEdit from './components/TaskEdit';
 import Teams from './components/Teams'
+import Home from './components/Home';
 
 
 const App = () => {
@@ -37,7 +38,7 @@ const App = () => {
   console.log(employeeState)
 
   return (
-    <div class="font-mono">
+    <div className='bg-gray-300 font-mono'>
       <NavBar employee={employeeState}/>
       <Switch>
         <Route exact path="/dashboard">
@@ -56,7 +57,7 @@ const App = () => {
           <FinishSignUp employee={employeeState}/>
         </Route>
         <Route path="/">
-          
+          <Home isAuthenticated={isAuthenticated}></Home>
         </Route>
       </Switch>
     </div>
