@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import CreateNote from "../modals/createNote";
 
 const TaskEdit = () => {
+    const [notes, setNotes] = useState([])
     const [task, setTask] = useState(null);
     const [formData, setFormData] = useState({
         description: "",
@@ -26,6 +27,12 @@ const TaskEdit = () => {
             })
         });
     }, [id]);
+
+    useEffect(() => {
+        fetch(`http://localhost:9292/notes/${id}`)
+        .then(rsp => rsp.json())
+        .then(data => setNotes(data))
+    }, [])
 
     const handleRemoveMember = event => {
         const employeeId = parseInt(event.target.parentNode.id);
@@ -166,8 +173,10 @@ const TaskEdit = () => {
                             
                         </div>
                     }
-                    <button onClick={() => setModal(true)} className="bg-red-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600 mb-2">+ Note</button>
-                            <CreateNote task={task} toggle={toggle} modal={modal}/>
+                    
+                    <>{notes.map((note) => note.description)}</>
+                    <button onClick={() => setModal(true)} className="bg-red-500 text-white px-2 py-2 font-medium rounded hover:bg-blue-600 mb-2">Add Note</button>
+                            <CreateNote notes={notes} setNotes={setNotes} task={task} toggle={toggle} modal={modal}/>
 
                     {
                         task.task.completed ?

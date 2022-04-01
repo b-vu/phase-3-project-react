@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { Modal, ModalBody, ModalHeader, Button, ModalFooter } from 'reactstrap';
-
-const CreateNote = ({modal, toggle, task}) => {
+const CreateNote = ({modal, toggle, task, setNotes, notes}) => {
     const [description, setDescription] = useState('')
 
     const handleChange = (e) => {
@@ -16,6 +15,7 @@ const CreateNote = ({modal, toggle, task}) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         const email = JSON.parse(localStorage.getItem("@@auth0spajs@@::9iUn0B7TZIiF5oKjdOlFyEJivnKykuWb::default::openid profile email")).body.decodedToken.user.email
+        
 
         fetch("http://localhost:9292/notes", {
             method: 'POST',
@@ -29,7 +29,11 @@ const CreateNote = ({modal, toggle, task}) => {
             })
         })
         .then(resp => resp.json())
-        .then(console.log("hold"))
+        .then(data => {
+            toggle(false)
+            setNotes([...notes,data])
+            setDescription('')  
+        })
     }
     
     return (
@@ -58,6 +62,5 @@ const CreateNote = ({modal, toggle, task}) => {
       </div>
     );
 };
-
 
 export default CreateNote;
