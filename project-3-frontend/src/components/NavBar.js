@@ -9,7 +9,7 @@ const NavBar = ({ employee }) => {
         className="flex justify-between items-center h-16 bg-blue-500 text-white relative shadow-md"
         role="navigation"
       >
-        <NavLink to="/" className="pl-8">
+        <NavLink to="/" className="pl-8 text-white" style={{ textDecoration: 'none' }}>
           Workflow
         </NavLink>
         <div className="px-4 cursor-pointer md:hidden">
@@ -32,13 +32,10 @@ const NavBar = ({ employee }) => {
             {
                 employee ?
                 <>
-                <NavLink to="/dashboard" className="p-4">
+                <NavLink to="/dashboard" className="p-4 text-white" style={{ textDecoration: 'none' }}>
                     Dashboard
                 </NavLink>
-                <NavLink to="/teams" className="p-4">
-                    Teams
-                </NavLink>
-                <NavLink to="/tasks" className="p-4">
+                <NavLink to="/tasks" className="p-4 text-white" style={{ textDecoration: 'none' }}>
                     Tasks
                 </NavLink>
                 <LogoutButton></LogoutButton>

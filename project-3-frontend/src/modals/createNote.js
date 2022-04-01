@@ -1,10 +1,6 @@
 import React, {useState} from 'react';
 import { Modal, ModalBody, ModalHeader, Button, ModalFooter } from 'reactstrap';
-
-
-
 const CreateNote = ({modal, toggle, task, setNotes, notes}) => {
-
     const [description, setDescription] = useState('')
 
     const handleChange = (e) => {
@@ -15,7 +11,6 @@ const CreateNote = ({modal, toggle, task, setNotes, notes}) => {
             setDescription(value)
         }
     }
-    console.log(description)
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -37,14 +32,10 @@ const CreateNote = ({modal, toggle, task, setNotes, notes}) => {
         .then(data => {
             toggle(false)
             setNotes([...notes,data])
-            setDescription('')
-        
+            setDescription('')  
         })
-        
-        
     }
     
-
     return (
       <div>
         <Modal isOpen={modal}>
@@ -71,6 +62,5 @@ const CreateNote = ({modal, toggle, task, setNotes, notes}) => {
       </div>
     );
 };
-
 
 export default CreateNote;
